@@ -11,10 +11,10 @@ public class Distancias implements Comparable{
 
 
     @Override
-    public int CompareTo(Object outra) {
-        if(this.distancia < outra.getDistancia()) {
+    public int compareTo(Object outra) {
+        if(this.distancia < ((Distancias) outra).getDistancia()) {
             return 1;
-        } else if(this.distancia > outra.getDistancia()) {
+        } else if(this.distancia > ((Distancias) outra).getDistancia()) {
             return -1;
         }
         return 0;
@@ -23,4 +23,5 @@ public class Distancias implements Comparable{
     public double getDistancia() {
         return this.distancia;
     }
+
 }

@@ -1,4 +1,10 @@
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public class App {
 
@@ -6,7 +12,7 @@ public class App {
     private static final String NOME_ARQUIVO = "./br.csv";
     // #endregion
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         ArquivoLeitura f = new ArquivoLeitura(NOME_ARQUIVO);
 
@@ -31,7 +37,8 @@ public class App {
         FileWriter arq = new FileWriter("distancias.txt");
         PrintWriter gravarArq = new PrintWriter(arq);
 
-        Distancias distancias[];
+        List<Distancias> distancias = new ArrayList<Distancias>();
+        int contDist = 0;
 
         for (int i = 0; i < (cidades.length); i++) {
             gravarArq.printf("Id cidade: " + i + " | Nome da cidade: "
@@ -39,22 +46,23 @@ public class App {
             for (int j = 0; j < (cidades.length); j++) {
                 gravarArq.printf("\nDistancia entre as cidades " + cidades[i].getNome() + " e " + cidades[j].getNome()
                         + " é " + cidades[i].distancia(cidades[j]));
-                distancias = new Distancias(cidades[i].getNome(), cidades[j].getNome(), cidades[i].distancia(cidades[j]));
+                distancias.add(new Distancias(cidades[i].getNome(), cidades[j].getNome(), cidades[i].distancia(cidades[j])));
+                contDist++;
             }
             gravarArq.printf("\n\n");
         }
         arq.close();
 
-        Distancia distanciaOrd[];
+        List<Distancias> distanciaOrd = distancias;
 
-        distanciaOrd = distancia;
+        distanciaOrd = distancias;
 
-        Collections.sort(distanciaOrd, new Comparable<Distancia>() {
+        Collections.sort(distanciaOrd, new Comparator<Distancias>() {
             @Override
-            public int compare(Object cid1, Object cid2) {
-                if(cid1.compareTo(cid2) == 1) {
+            public int compare(Distancias cid1, Distancias cid2) {
+                if(cid1.getDistancia() < cid2.getDistancia()) {
                     return 1;
-                } else if (cid1.compareTo(cid2) == -1) {
+                } else if (cid1.getDistancia() > cid2.getDistancia()) {
                     return -1;
                 }
                 return 0;
